@@ -339,6 +339,40 @@ function setTemperature() {
   (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 +
   "%";
   temperature.dataset.value = range.value + units[config.unit];
+
+  console.log(range.value,"XD")
+
+  const myheaders = new Headers()
+  myheaders.append('Content-Type', 'application/json');
+  const postData = {
+    value:temperature.dataset.value
+};
+const url = 'http://127.0.0.1:8000/api/value/create/'; // Reemplaza  con la URL de tu endpoint
+const options = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({value:range.value})
+};
+
+console.log(options)
+
+fetch(url, options)
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Hubo un problema al enviar la solicitud.');
+    }
+    return response.json(); // Parsear la respuesta como JSON
+})
+.then(data => {
+    console.log('Respuesta del servidor:', data);
+    // Aquí puedes manejar la respuesta del servidor, como mostrar un mensaje de éxito al usuario, etc.
+})
+.catch(error => {
+    console.log('Error:', error);
+    // Manejar cualquier error que ocurra durante la solicitud
+});
 }
 
 range.addEventListener("input", setTemperature);

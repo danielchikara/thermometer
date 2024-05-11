@@ -4,10 +4,10 @@ from django.db import models
 
 
 class Temperature(models.Model):
-    name = models.CharField(max_length=200)
+    date = models.DateField(auto_now_add=True)
     value = models.IntegerField()
 
     def __str__(self):
-        return self.choice_text
+        return self.value
     
     
